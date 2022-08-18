@@ -1,6 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.chxmpxx.hero_service_app">
-   <application
+    <uses-permission android:name="android.permission.USE_FINGERPRINT"/>
+    <application
         android:label="hero_service_app"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
