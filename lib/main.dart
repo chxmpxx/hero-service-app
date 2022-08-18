@@ -19,7 +19,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: appTheme(),
-      initialRoute: '/dashboard', 
+      initialRoute: '/welcome', 
       routes: routes,
     );
   }
