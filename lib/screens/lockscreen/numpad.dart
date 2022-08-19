@@ -6,8 +6,7 @@ import 'package:local_auth/local_auth.dart';
 class Numpad extends StatefulWidget {
   // รหัสผ่านกี่หลัก
   final int? length;
-  final Function? onChange;
-  Numpad({Key? key, this.length, this.onChange}) : super(key: key);
+  Numpad({Key? key, this.length}) : super(key: key);
 
   @override
   _NumpadState createState() => _NumpadState();
@@ -68,19 +67,51 @@ class _NumpadState extends State<Numpad> {
     Navigator.pushReplacementNamed(context, '/dashboard');
   }
 
+  // ตรวจว่าผู้ใช้กด pin ไปแล้วกี่หลัก ถ้าน้อยว่า ui (6 หลัก) ให้ต่อค่าไปเรื่อย ๆ
   setValue(String val){
-    if(number.length < widget.length!)
+    if(number.length < widget.length!) {
       setState(() {
         number += val;
-        widget.onChange!(number);
       });
+    }
+    if (number.length == widget.length!) {
+      if(number == '123456') {
+        Navigator.pushReplacementNamed(context, '/dashboard');
+      }
+      else {
+        _showDialog('แจ้งเตือน', 'รหัสผ่านไม่ถูกต้อง');
+        // ไม่ต้อง set state ให้ number เพราะไม่ได้เปลี่ยน ui
+        number = '';
+      }
+    }
+  }
+
+  void _showDialog(title, msg) {
+    // showDialog: ตัว pop-up
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // AlertDialog: หน้าตา UI ข้างในที่ใส่ของต่าง ๆ ได้
+        return AlertDialog(
+          title: Text(title),
+          content: Text(msg),
+          actions: [
+            FlatButton(
+              onPressed: (){
+                Navigator.of(context).pop();
+              }, 
+              child: Text('ปิด')
+            )
+          ],
+        );
+      }
+    );
   }
 
   backspace(String text){
-    if(text.length > 0){
+    if(text.length > 0) {
       setState(() {
         number = text.split('').sublist(0,text.length-1).join('');
-        widget.onChange!(number);
       });
     }
   }

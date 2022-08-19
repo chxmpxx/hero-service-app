@@ -12,39 +12,6 @@ class _LockScreenState extends State<LockScreen> {
 
   int length = 6;
 
-  onChange(String number) {
-    if(number.length == length) {
-      if(number == '123456') {
-        Navigator.pushReplacementNamed(context, '/dashboard');
-      }
-      else {
-        _showDialog('แจ้งเตือน', 'รหัสผ่านไม่ถูกต้อง');
-      }
-    }
-  }
-
-  void _showDialog(title, msg) {
-    // showDialog: ตัว pop-up
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        // AlertDialog: หน้าตา UI ข้างในที่ใส่ของต่าง ๆ ได้
-        return AlertDialog(
-          title: Text(title),
-          content: Text(msg),
-          actions: [
-            FlatButton(
-              onPressed: (){
-                Navigator.of(context).pop();
-              }, 
-              child: Text('ปิด')
-            )
-          ],
-        );
-      }
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,7 +27,7 @@ class _LockScreenState extends State<LockScreen> {
                 style: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.w400),
               ),
             ),
-            Numpad(length: length, onChange: onChange)
+            Numpad(length: length)
           ],
         ),
       ),
