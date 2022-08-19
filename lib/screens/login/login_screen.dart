@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:hero_service_app/components/password_widget.dart';
+import 'package:hero_service_app/services/rest_api.dart';
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({Key? key}) : super(key: key);
@@ -89,7 +92,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     // เช็คว่าฟอร์มอยู่สถานะอะไร: validate ยัง
                     if(formKey.currentState!.validate()) {
                       formKey.currentState!.save();
-                      print(_email! + _password!);
+                      var userData = {
+                        'email': _email,
+                        'password': _password
+                      };
+                      _loginProcess(userData);
                     }
                   },
                   child: Padding(
@@ -105,4 +112,40 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
+
+  // ฟังก์ชันเช็ตการ Login
+  void _loginProcess(userData) async {
+    var response = await CallAPI().loginAPI(userData);
+    var body = jsonDecode(response.body);
+    print(body['message']);
+
+    if(body['status'] == 'success' && body['data']['status'] == '1') {
+      Navigator.pushReplacementNamed(context, '/dashboard');
+    }else {
+      _showDialog('มีข้อผิดพลาด', 'ข้อมูลไม่ถูกต้อง');
+    }
+  }
+
+  void _showDialog(title, msg) {
+    // showDialog: ตัว pop-up
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // AlertDialog: หน้าตา UI ข้างในที่ใส่ของต่าง ๆ ได้
+        return AlertDialog(
+          title: Text(title),
+          content: Text(msg),
+          actions: [
+            FlatButton(
+              onPressed: (){
+                Navigator.of(context).pop();
+              }, 
+              child: Text('ปิด')
+            )
+          ],
+        );
+      }
+    );
+  }
+
 }
