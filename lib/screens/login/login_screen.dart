@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:flutter/material.dart';
 import 'package:hero_service_app/components/password_widget.dart';
@@ -115,15 +116,33 @@ class _LoginScreenState extends State<LoginScreen> {
 
   // ฟังก์ชันเช็ตการ Login
   void _loginProcess(userData) async {
-    var response = await CallAPI().loginAPI(userData);
-    var body = jsonDecode(response.body);
-    print(body['message']);
+    try {
 
-    if(body['status'] == 'success' && body['data']['status'] == '1') {
-      Navigator.pushReplacementNamed(context, '/dashboard');
-    }else {
-      _showDialog('มีข้อผิดพลาด', 'ข้อมูลไม่ถูกต้อง');
+      var response = await CallAPI().loginAPI(userData);
+      var body = jsonDecode(response.body);
+      print(body['message']);
+
+      if(body['status'] == 'success' && body['data']['status'] == '1') {
+        Navigator.pushReplacementNamed(context, '/dashboard');
+      }else {
+        _showDialog('มีข้อผิดพลาด', 'ข้อมูลไม่ถูกต้อง');
+      }
+
     }
+    catch(e) {
+      Fluttertoast.showToast(
+        msg: "การโหลดข้อมูลมีข้อผิดพลาด",
+        // toastLength: ระยะเวลาที่แสดงผล
+        toastLength: Toast.LENGTH_SHORT,
+        // gravity: ตำแหน่ง
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0
+      );
+    }
+    
   }
 
   void _showDialog(title, msg) {

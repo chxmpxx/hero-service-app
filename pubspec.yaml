@@ -38,6 +38,7 @@ dependencies:
   introduction_screen: ^3.0.2
   local_auth: ^1.1.11
   http: ^0.13.5
+  fluttertoast: ^8.0.9
 
 dev_dependencies:
   flutter_test:
