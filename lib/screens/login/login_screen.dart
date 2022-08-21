@@ -4,6 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/material.dart';
 import 'package:hero_service_app/components/password_widget.dart';
 import 'package:hero_service_app/services/rest_api.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({Key? key}) : super(key: key);
@@ -123,6 +124,12 @@ class _LoginScreenState extends State<LoginScreen> {
       print(body['message']);
 
       if(body['status'] == 'success' && body['data']['status'] == '1') {
+        // ตัวแปรแบบ sharedPreferences ต้องอยู่ภายใต้ async function
+        SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+
+        // เก็บค่าลงตัวแปรแบบ SharedPreferences
+        sharedPreferences.setInt('appStep', 2);
+
         Navigator.pushReplacementNamed(context, '/dashboard');
       }else {
         _showDialog('มีข้อผิดพลาด', 'ข้อมูลไม่ถูกต้อง');

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class WelcomeScreen extends StatefulWidget {
   WelcomeScreen({Key? key}) : super(key: key);
@@ -12,7 +13,13 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
   final introKey = GlobalKey<_WelcomeScreenState>();
 
-  void _onIntroEnd(context) {
+  void _onIntroEnd(context) async{
+    // ตัวแปรแบบ sharedPreferences ต้องอยู่ภายใต้ async function
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+
+    // เก็บค่าลงตัวแปรแบบ SharedPreferences
+    sharedPreferences.setInt('appStep', 1);
+
     // เมื่อถึงหน้าสุดท้ายจะไปหน้า LoginScreen
     Navigator.pushReplacementNamed(context, '/login');
   }

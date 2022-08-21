@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 // แสกนนิ้ว
 import 'package:local_auth/local_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 // import 'package:shared_preferences/shared_preferences.dart'; 
 
 class Numpad extends StatefulWidget {
@@ -61,14 +62,16 @@ class _NumpadState extends State<Numpad> {
   }
 
   void _setAuthSuccess() async {
-    // สร้างตัวเก็บข้อมูลแบบ SharedPreferences
-    // SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    // sharedPreferences.setInt('storeStep', 3);
+    // ตัวแปรแบบ sharedPreferences ต้องอยู่ภายใต้ async function
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+
+    // เก็บค่าลงตัวแปรแบบ SharedPreferences
+    sharedPreferences.setInt('appStep', 2);
     Navigator.pushReplacementNamed(context, '/dashboard');
   }
 
   // ตรวจว่าผู้ใช้กด pin ไปแล้วกี่หลัก ถ้าน้อยว่า ui (6 หลัก) ให้ต่อค่าไปเรื่อย ๆ
-  setValue(String val){
+  setValue(String val) async {
     if(number.length < widget.length!) {
       setState(() {
         number += val;
@@ -76,6 +79,12 @@ class _NumpadState extends State<Numpad> {
     }
     if (number.length == widget.length!) {
       if(number == '123456') {
+        // ตัวแปรแบบ sharedPreferences ต้องอยู่ภายใต้ async function
+        SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+
+        // เก็บค่าลงตัวแปรแบบ SharedPreferences
+        sharedPreferences.setInt('appStep', 2);
+
         Navigator.pushReplacementNamed(context, '/dashboard');
       }
       else {
