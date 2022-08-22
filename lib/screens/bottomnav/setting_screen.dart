@@ -1,4 +1,6 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingScreen extends StatefulWidget {
@@ -23,9 +25,48 @@ class _SettingScreenState extends State<SettingScreen> {
     });
   }
 
+  // ฟังก์ชัน check network
+  checkNetwork() async {
+    var result = await Connectivity().checkConnectivity();
+    if(result == ConnectivityResult.wifi) {
+      Fluttertoast.showToast(
+        msg: "คุณกำลังเชื่อมต่อผ่าน Wifi",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.green,
+        textColor: Colors.white,
+        fontSize: 16.0
+      );
+    }
+    else if(result == ConnectivityResult.mobile){
+      Fluttertoast.showToast(
+        msg: "คุณกำลังเชื่อมต่อผ่าน 4G",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.green,
+        textColor: Colors.white,
+        fontSize: 16.0
+      );
+    }
+    else if(result == ConnectivityResult.none){
+      Fluttertoast.showToast(
+        msg: "คุณไม่ได้เชื่อมต่ออินเตอร์เน็ต",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.green,
+        textColor: Colors.white,
+        fontSize: 16.0
+      );
+    }
+  }
+
   @override
   void initState() {
     getProfile();
+    checkNetwork();
     super.initState();
   }
 
@@ -102,7 +143,6 @@ class _SettingScreenState extends State<SettingScreen> {
             leading: Icon(Icons.settings),
             title: Text('ตั้งค่าการใช้งาน'),
             onTap: (){
-              print('...' + _avatar!);
             },
           ),
           ListTile(
