@@ -106,7 +106,7 @@ class _SettingScreenState extends State<SettingScreen> {
                   style: TextStyle(
                     fontSize: 24, 
                     color: Colors.pink[300], 
-                    fontFamily: 'Montserrat[700]',
+                    fontFamily: 'Kanit',
                     shadows: [
                       Shadow(
                         offset: Offset(2, 2),

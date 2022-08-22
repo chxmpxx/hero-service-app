@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 ThemeData appTheme() {
   return ThemeData(
-    fontFamily: 'Montserrat',
+    fontFamily: 'Kanit',
     // สีหลัก
     primaryColor: Colors.purple,
     // สีพวก status bar ต่าง ๆ
