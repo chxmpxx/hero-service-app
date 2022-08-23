@@ -2,6 +2,7 @@
 import 'dart:convert';
 
 import 'package:hero_service_app/models/login_model.dart';
+import 'package:hero_service_app/models/news_model.dart';
 import 'package:http/http.dart' as http;
 
 class CallAPI {
@@ -41,6 +42,20 @@ class CallAPI {
       return loginModelFromJson(response.body);
     }
     throw Exception('Fail');
-    
+  }
+
+  // Read News
+  Future<List<NewsModel>> getNews() async {
+    var fullURL = Uri.parse(baseAPIURL + "news");
+
+    final response = await http.get(
+      fullURL,
+      headers: _setHeaders()
+    );
+
+    if(response.body != null) {
+      return newsModelFromJson(response.body);
+    }
+    throw Exception('Fail');
   }
 }
