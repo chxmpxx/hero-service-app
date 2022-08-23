@@ -77,6 +77,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('ข้อมูลผู้ใช้'),
+        backgroundColor: Colors.purple[300],
       ),
       body: ListView(
         children: [

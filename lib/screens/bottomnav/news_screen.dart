@@ -99,7 +99,14 @@ class _MarketScreenState extends State<MarketScreen> {
         return Container(
           width: MediaQuery.of(context).size.width * 0.6,
           child: InkWell(
-            onTap: (){},
+            onTap: (){
+              // ส่งค่า id
+              Navigator.pushNamed(
+                context, 
+                '/newsdetail',
+                arguments: {'id': newsModel.id}
+              );
+            },
             child: Card(
               child: Container(
                 child: Column(

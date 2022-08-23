@@ -2,6 +2,7 @@
 import 'dart:convert';
 
 import 'package:hero_service_app/models/login_model.dart';
+import 'package:hero_service_app/models/news_detail_model.dart';
 import 'package:hero_service_app/models/news_model.dart';
 import 'package:http/http.dart' as http;
 
@@ -59,7 +60,7 @@ class CallAPI {
     throw Exception('Fail');
   }
 
-    // Read All News
+  // Read All News
   Future<List<NewsModel>> getAllNews() async {
     var fullURL = Uri.parse(baseAPIURL + "news");
 
@@ -70,6 +71,21 @@ class CallAPI {
 
     if(response.body != null) {
       return newsModelFromJson(response.body);
+    }
+    throw Exception('Fail');
+  }
+
+  // Read News Detail By ID
+  Future<NewsDetailModel> getNewsDetail(id) async {
+    var fullURL = Uri.parse(baseAPIURL + "news/" + id);
+
+    final response = await http.get(
+      fullURL,
+      headers: _setHeaders()
+    );
+
+    if(response.body != null) {
+      return newsDetailModelFromJson(response.body);
     }
     throw Exception('Fail');
   }

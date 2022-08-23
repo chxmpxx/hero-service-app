@@ -3,7 +3,7 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 
 import 'package:hero_service_app/screens/bottomnav/booking_screen.dart';
 import 'package:hero_service_app/screens/bottomnav/home_screen.dart';
-import 'package:hero_service_app/screens/bottomnav/market_screen.dart';
+import 'package:hero_service_app/screens/bottomnav/news_screen.dart';
 import 'package:hero_service_app/screens/bottomnav/notification_screen.dart';
 import 'package:hero_service_app/screens/bottomnav/setting_screen.dart';
 
@@ -36,7 +36,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
       // เปลี่ยน title ตาม teb ที่เลือก
       switch (index) {
-        case 0: _title = 'ตลาด';
+        case 0: _title = 'ข่าว';
           break;
         case 1: _title = 'รายการจอง';
           break;
@@ -89,7 +89,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         ),
         animationCurve: Curves.bounceInOut,
         items: [
-          Icon(Icons.shopping_cart, size: 30, color: Colors.white,),
+          Icon(Icons.newspaper, size: 30, color: Colors.white,),
           Icon(Icons.library_add_sharp, size: 30, color: Colors.white,),
           Icon(Icons.business_center, size: 30, color: Colors.white,),
           Icon(Icons.notifications, size: 30, color: Colors.white,),
