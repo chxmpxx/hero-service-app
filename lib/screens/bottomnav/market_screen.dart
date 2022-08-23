@@ -27,7 +27,7 @@ class _MarketScreenState extends State<MarketScreen> {
             height: MediaQuery.of(context).size.height * 0.3,
             child: FutureBuilder(
               // Call API
-              future: CallAPI().getNews(),
+              future: CallAPI().getLastNews(),
               // AsyncSnapshot อ่าน data จาก API มา
               builder: (BuildContext context, AsyncSnapshot<List<NewsModel>> snapshot) {
                 if(snapshot.hasError) {
@@ -37,7 +37,39 @@ class _MarketScreenState extends State<MarketScreen> {
                 }
                 else if(snapshot.connectionState == ConnectionState.done) {
                   List<NewsModel> news = snapshot.data!;
-                  return _listViewNews(news);
+                  return _listViewLastNews(news);
+                }
+                // กำลังโหลดอยู่
+                else {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+              },
+            )
+          ),
+          Padding(
+            padding: const EdgeInsets.all(15),
+            child: Text(
+              'ข่าวประกาศทั้งหมด',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+          ),
+          Container(
+            height: MediaQuery.of(context).size.height * 0.3,
+            child: FutureBuilder(
+              // Call API
+              future: CallAPI().getAllNews(),
+              // AsyncSnapshot อ่าน data จาก API มา
+              builder: (BuildContext context, AsyncSnapshot<List<NewsModel>> snapshot) {
+                if(snapshot.hasError) {
+                  return Center(
+                    child: Text('มีข้อผิดพลาด ${snapshot.error.toString()}'),
+                  );
+                }
+                else if(snapshot.connectionState == ConnectionState.done) {
+                  List<NewsModel> news = snapshot.data!;
+                  return _listViewAllNews(news);
                 }
                 // กำลังโหลดอยู่
                 else {
@@ -53,8 +85,9 @@ class _MarketScreenState extends State<MarketScreen> {
     );
   }
 
-  // สร้าง ListView สำหรับการแสดงข่าว อ่านจาก API มา ตอนใช้งานต้องเรียกจาก FutureBuilder
-  Widget _listViewNews(List<NewsModel> news) {
+  // สร้าง ListView สำหรับการแสดงข่าวล่าสุด
+  // อ่านจาก API มา ตอนใช้งานต้องเรียกจาก FutureBuilder
+  Widget _listViewLastNews(List<NewsModel> news) {
     return ListView.builder(
       // เลื่อนแนวนอน
       scrollDirection: Axis.horizontal,
@@ -108,6 +141,29 @@ class _MarketScreenState extends State<MarketScreen> {
               ),
             ),
           ),
+        );
+        
+      },
+    );
+  }
+
+  // สร้าง ListView สำหรับการแสดงข่าวทั้งหมด
+  Widget _listViewAllNews(List<NewsModel> news) {
+    return ListView.builder(
+      // เลื่อนแนวตั้ง
+      scrollDirection: Axis.vertical,
+      itemCount: news.length,
+      itemBuilder: (context, index) {
+        // Load model
+        NewsModel newsModel = news[index];
+        
+        return ListTile(
+          leading: Icon(Icons.pages),
+          title: Text(
+            newsModel.topic!,
+            overflow: TextOverflow.ellipsis,
+          ),
+          onTap: (){},
         );
         
       },

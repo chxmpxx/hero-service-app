@@ -44,8 +44,23 @@ class CallAPI {
     throw Exception('Fail');
   }
 
-  // Read News
-  Future<List<NewsModel>> getNews() async {
+  // Read Last News (5 News)
+  Future<List<NewsModel>> getLastNews() async {
+    var fullURL = Uri.parse(baseAPIURL + "lastnews");
+
+    final response = await http.get(
+      fullURL,
+      headers: _setHeaders()
+    );
+
+    if(response.body != null) {
+      return newsModelFromJson(response.body);
+    }
+    throw Exception('Fail');
+  }
+
+    // Read All News
+  Future<List<NewsModel>> getAllNews() async {
     var fullURL = Uri.parse(baseAPIURL + "news");
 
     final response = await http.get(
