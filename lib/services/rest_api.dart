@@ -1,6 +1,7 @@
 // ใส่ alias: http
 import 'dart:convert';
 
+import 'package:hero_service_app/models/login_model.dart';
 import 'package:http/http.dart' as http;
 
 class CallAPI {
@@ -23,5 +24,23 @@ class CallAPI {
       body: jsonEncode(data),
       headers: _setHeaders()
     );
+  }
+
+  // Read User Profile
+  // ต้องทำผ่าน Future เพื่อให้อ่านข้อมูลเป็น background process แล้วส่งกลับเมื่อทำเสร็จ
+  Future<LoginModel> getProfile(data) async {
+    var fullURL = Uri.parse(baseAPIURL + "login");
+
+    final response = await http.post(
+      fullURL,
+      body: jsonEncode(data),
+      headers: _setHeaders()
+    );
+
+    if(response.statusCode == 200) {
+      return loginModelFromJson(response.body);
+    }
+    throw Exception('Fail');
+    
   }
 }

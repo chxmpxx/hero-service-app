@@ -131,6 +131,9 @@ class _LoginScreenState extends State<LoginScreen> {
         sharedPreferences.setInt('appStep', 2);
         sharedPreferences.setString('storeFullname', body['data']['prename'] + body['data']['firstname'] + ' ' + body['data']['lastname']);
         sharedPreferences.setString('storeAvatar', body['data']['avatar']);
+        sharedPreferences.setString('storeEmail', body['data']['email']);
+        // ถ้าทำจริง จะไม่เก็บ password ลง sharedPreferences อันนี้ทำเพื่อเรียนรู้เฉย ๆ (ไปแยกอีก API สำหรับอ่านข้อมูลโดยไม่ต้องลง password ไป)
+        sharedPreferences.setString('storePassword', _password!);
 
         Navigator.pushReplacementNamed(context, '/dashboard');
       }else {

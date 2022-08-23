@@ -56,7 +56,7 @@ class _SettingScreenState extends State<SettingScreen> {
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,
-        backgroundColor: Colors.green,
+        backgroundColor: Colors.red,
         textColor: Colors.white,
         fontSize: 16.0
       );
@@ -122,7 +122,9 @@ class _SettingScreenState extends State<SettingScreen> {
           ListTile(
             leading: Icon(Icons.person),
             title: Text('ข้อมูลผู้ใช้'),
-            onTap: (){},
+            onTap: (){
+              Navigator.pushNamed(context, '/profile');
+            },
           ),
           ListTile(
             leading: Icon(Icons.lock),
