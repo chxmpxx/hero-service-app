@@ -3,6 +3,7 @@ import 'package:hero_service_app/screens/dashboard/dashboard_screen.dart';
 import 'package:hero_service_app/screens/lockscreen/lock_screen.dart';
 import 'package:hero_service_app/screens/login/login_screen.dart';
 import 'package:hero_service_app/screens/newsdetail/news_datail_screen.dart';
+import 'package:hero_service_app/screens/qrcode/qrcode_screen.dart';
 import 'package:hero_service_app/screens/userprofile/user_profile_screen.dart';
 import 'package:hero_service_app/screens/welcome/welcome_screen.dart';
 
@@ -13,5 +14,6 @@ final Map<String, WidgetBuilder> routes = <String, WidgetBuilder> {
   "/lock": (BuildContext context) => LockScreen(),
   "/login": (BuildContext context) => LoginScreen(),
   "/profile": (BuildContext context) => UserProfileScreen(),
-  "/newsdetail": (BuildContext context) => NewsDetailScreen()
+  "/newsdetail": (BuildContext context) => NewsDetailScreen(),
+  "/qrcode": (BuildContext context) => QRCodeScreen()
 };

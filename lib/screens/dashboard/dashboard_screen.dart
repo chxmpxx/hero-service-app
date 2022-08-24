@@ -19,14 +19,48 @@ class _DashboardScreenState extends State<DashboardScreen> {
   // สร้างตัวแปรแบบ List ไว้เก็บรายการของ bottom nav
   int _currentIndex = 2;
   String _title = 'บริการ';
+  Widget? _actionWidget;
 
   final List<Widget> _children = [
-    MarketScreen(),
+    NewsScreen(),
     BookingScreen(),
     HomeScreen(),
     NotificationScreen(),
     SettingScreen()
   ];
+
+  // สร้าง Widget action สำหรับแยกแสดงผล Appbar
+  Widget _homeActionBar() {
+    return InkWell(
+      onTap: (){
+        Navigator.pushNamed(context, '/qrcode');
+      },
+      child: Padding(
+        padding: const EdgeInsets.only(right: 15),
+        child: Row(
+          children: [
+            Icon(Icons.center_focus_strong),
+            Text(' SCAN')
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _newsActionBar() {
+    return InkWell(
+      onTap: (){},
+      child: Padding(
+        padding: const EdgeInsets.only(right: 15),
+        child: Row(
+          children: [
+            Icon(Icons.add),
+            Text('Add news')
+          ],
+        ),
+      ),
+    );
+  }
 
   // สร้างฟังก์ชันไว้เปลี่ยนหน้า
   void onTabTapped(int index) {
@@ -37,25 +71,43 @@ class _DashboardScreenState extends State<DashboardScreen> {
       // เปลี่ยน title ตาม teb ที่เลือก
       switch (index) {
         case 0: _title = 'ข่าว';
+        _actionWidget = _newsActionBar();
           break;
         case 1: _title = 'รายการจอง';
+        _actionWidget = Container();
           break;
-        case 2: _title = 'บริการ';
+        case 2: _title = 'หน้าหลัก';
+        _actionWidget = _homeActionBar();
           break;
         case 3: _title = 'แจ้งเตือน';
+        _actionWidget = Container();
           break;
         case 4: _title = 'อื่น ๆ';
+        _actionWidget = Container();
           break;
       }
     });
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setState(() {
+      _actionWidget = _homeActionBar();
+    });
+    
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(child: Text(_title)),
+        title: Text(_title),
         backgroundColor: Colors.pink[400],
+        actions: [
+          _actionWidget!
+        ],
       ),
       // bottomNavigationBar: BottomNavigationBar(
       //   // ถ้ามีพารามิเตอร์เดียวไม่ต้องใส่ก็ได้

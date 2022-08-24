@@ -3,14 +3,14 @@ import 'package:hero_service_app/models/news_model.dart';
 import 'package:hero_service_app/services/rest_api.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class MarketScreen extends StatefulWidget {
-  MarketScreen({Key? key}) : super(key: key);
+class NewsScreen extends StatefulWidget {
+  NewsScreen({Key? key}) : super(key: key);
 
   @override
-  State<MarketScreen> createState() => _MarketScreenState();
+  State<NewsScreen> createState() => _NewsScreenState();
 }
 
-class _MarketScreenState extends State<MarketScreen> {
+class _NewsScreenState extends State<NewsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
