@@ -1,6 +1,13 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:rxdart/rxdart.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:qr_code_tools/qr_code_tools.dart';
+import 'package:flutter/services.dart' show rootBundle;
 
 class ScannerScreen extends StatefulWidget {
   ScannerScreen({Key? key}) : super(key: key);
@@ -19,6 +26,37 @@ class _ScannerScreenState extends State<ScannerScreen> {
   // สลับกล้อง
   bool _frontCam = false;
 
+  var picker = ImagePicker();
+  String _qrcodeFile = '';
+  String _data = '';
+
+  @override
+  void initState() {
+    super.initState();
+
+    // รูปเริ่มต้น
+    String filename = 'QR_chxmpxx.jpeg';
+    Stream.fromFuture(getTemporaryDirectory())
+    .flatMap((tempDir) {
+      File qrCodeFile = File('${tempDir.path}/$filename');
+      bool exists = qrCodeFile.existsSync();
+      if (exists) {
+        return Stream.value(qrCodeFile);
+      } else {
+        return Stream.fromFuture(rootBundle.load("assets/images/$filename"))
+          .flatMap((bytes) => Stream.fromFuture(qrCodeFile.writeAsBytes(
+            bytes.buffer.asUint8List(
+              bytes.offsetInBytes, bytes.lengthInBytes))));
+      }
+    })
+    .flatMap((file) =>
+      Stream.fromFuture(QrCodeToolsPlugin.decodeFrom(file.path)))
+    .listen((data) {
+      setState(() {
+        _data = data!;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +112,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
           child: Container(
             margin: EdgeInsets.only(bottom: 80),
             child: OutlinedButton(
-              onPressed: (){},
+              onPressed: _getPhotoByGallery,
               style: OutlinedButton.styleFrom(
                 side: BorderSide(color: Colors.white),
                 shape: StadiumBorder(),
@@ -128,4 +166,114 @@ class _ScannerScreenState extends State<ScannerScreen> {
       ],
     );
   }
+
+  void _getPhotoByGallery() {
+    Stream.fromFuture(ImagePicker.platform.pickImage(source: ImageSource.gallery))
+        .flatMap((file) {
+      setState(() {
+        _qrcodeFile = file!.path;
+      });
+      return Stream.fromFuture(QrCodeToolsPlugin.decodeFrom(file!.path));
+    }).listen((data) {
+      setState(() {
+        _data = data!;
+        Fluttertoast.showToast(
+          msg: _data.toString(),
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.green,
+          textColor: Colors.white,
+          fontSize: 16.0
+        );
+      });
+    }).onError((error, stackTrace) {
+      setState(() {
+        _data = '';
+      });
+      print('${error.toString()}');
+    });
+  }
+
+  // ========ver เก่า========
+  // PickedFile? _image;
+  // String _data = "";
+  // String _qrcodeFile = "";
+
+  // // สร้างฟังก์ชันสำหรับเลือกรูปจากแกลเลอรี่
+  // Future getImage() async {
+  //   // มีให้เลือกทั้งจาก กล้อง/แกลเลอรี่
+  //   var image = await ImagePicker.platform.pickImage(source: ImageSource.gallery);
+
+  //   setState(() {
+  //     _image = image;
+  //     Fluttertoast.showToast(
+  //         msg: image.toString(),
+  //         toastLength: Toast.LENGTH_SHORT,
+  //         gravity: ToastGravity.BOTTOM,
+  //         timeInSecForIosWeb: 1,
+  //         backgroundColor: Colors.green,
+  //         textColor: Colors.white,
+  //         fontSize: 16.0
+  //     );
+  //   });
+  // }
+
+  // @override
+  // void initState() {
+  //   super.initState();
+
+  //   // รูปเริ่มต้น
+  //   String filename = 'account.jpg';
+  //   Stream.fromFuture(getTemporaryDirectory())
+  //   .flatMap((tempDir) {
+  //     File qrCodeFile = File('${tempDir.path}/$filename');
+  //     bool exists = qrCodeFile.existsSync();
+  //     if (exists) {
+  //       return Stream.value(qrCodeFile);
+  //     } else {
+  //       return Stream.fromFuture(rootBundle.load("assets/images/$filename"))
+  //         .flatMap((bytes) => Stream.fromFuture(
+  //           qrCodeFile.writeAsBytes(bytes.buffer.asUint8List(
+  //             bytes.offsetInBytes, bytes.lengthInBytes))));
+  //     }
+  //   })
+  //   .flatMap(
+  //       (file) => Stream.fromFuture(QrCodeToolsPlugin.decodeFrom(file.path)))
+  //   .listen((data) {
+  //     setState(() {
+  //       _data = data!;
+  //     });
+  //   });
+
+  // }
+
+  // void _getPhotoByGallery() {
+  //   Stream.fromFuture(ImagePicker.platform.pickImage(source: ImageSource.gallery))
+  //   .flatMap((file) {
+  //     setState(() {
+  //       _qrcodeFile = file!.path;
+  //     });
+  //     return Stream.fromFuture(QrCodeToolsPlugin.decodeFrom(file!.path));
+  //   }).listen((data) {
+  //     setState(() {
+  //       _data = data!;
+        // Fluttertoast.showToast(
+        //   msg: _data.toString(),
+        //   toastLength: Toast.LENGTH_SHORT,
+        //   gravity: ToastGravity.BOTTOM,
+        //   timeInSecForIosWeb: 1,
+        //   backgroundColor: Colors.green,
+        //   textColor: Colors.white,
+        //   fontSize: 16.0
+        // );
+  //     });
+  //   }).onError((error, stackTrace) {
+  //     setState(() {
+  //       _data = '';
+  //     });
+  //     print('${error.toString()}');
+  //   });
+  // }
+
 }
