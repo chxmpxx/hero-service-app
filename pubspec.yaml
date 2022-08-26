@@ -54,6 +54,12 @@ dependencies:
       url: https://github.com/PabloPessotto/qr_code_tools.git
       ref: 8f95dc999833961343c96cfe2e104ee4b650ebd9
   qr_flutter: ^4.0.0
+  flutter_launcher_icons: ^0.10.0
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/icon.png"
 
 dev_dependencies:
   flutter_test:

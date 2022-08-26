@@ -85,7 +85,7 @@ class _MyQRCodeScreenState extends State<MyQRCodeScreen> {
   Future<ui.Image> _loadOverlayImage() async {
     final completer = Completer<ui.Image>();
     // โหลดภาพ
-    final byteData = await rootBundle.load('assets/images/account.png');
+    final byteData = await rootBundle.load('assets/images/icon.png');
     // อ่านภาพเป็น byte แล้วเอาไปวาดทับบน QR
     ui.decodeImageFromList(byteData.buffer.asUint8List(), completer.complete);
     return completer.future;
