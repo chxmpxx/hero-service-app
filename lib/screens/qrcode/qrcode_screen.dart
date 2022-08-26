@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hero_service_app/screens/qrcode/my_qrcode.dart';
+import 'package:hero_service_app/screens/qrcode/my_qrcode_screen.dart';
 import 'package:hero_service_app/screens/qrcode/scanner_screen.dart';
 
 class QRCodeScreen extends StatefulWidget {

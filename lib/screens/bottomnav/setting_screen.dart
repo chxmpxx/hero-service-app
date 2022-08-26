@@ -95,7 +95,7 @@ class _SettingScreenState extends State<SettingScreen> {
                     // รูป account วงกลม
                     child: CircleAvatar(
                       radius: 46.0,
-                      // backgroundImage: AssetImage('assets/images/account.jpg'),
+                      // backgroundImage: AssetImage('assets/images/account.png'),
                       backgroundImage: NetworkImage('$_avatar'),
                     ),
                   ),

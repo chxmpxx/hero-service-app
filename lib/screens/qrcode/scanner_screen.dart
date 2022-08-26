@@ -224,7 +224,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
   //   super.initState();
 
   //   // รูปเริ่มต้น
-  //   String filename = 'account.jpg';
+  //   String filename = 'account.png';
   //   Stream.fromFuture(getTemporaryDirectory())
   //   .flatMap((tempDir) {
   //     File qrCodeFile = File('${tempDir.path}/$filename');

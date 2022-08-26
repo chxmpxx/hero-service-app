@@ -387,6 +387,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.2.4"
+  qr:
+    dependency: transitive
+    description:
+      name: qr
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.1.0"
   qr_code_scanner:
     dependency: "direct main"
     description:
@@ -403,6 +410,13 @@ packages:
       url: "https://github.com/PabloPessotto/qr_code_tools.git"
     source: git
     version: "0.0.8"
+  qr_flutter:
+    dependency: "direct main"
+    description:
+      name: qr_flutter
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.0.0"
   rxdart:
     dependency: "direct main"
     description:
